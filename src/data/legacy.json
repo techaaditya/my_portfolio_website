@@ -1,0 +1,55 @@
+{
+  "_note": "Verbatim content extracted from the original single-file site (now in legacy/). Kept for reference only. Fabricated projects and inflated skills are intentionally NOT carried forward — see PORTFOLIO_REBUILD_PROMPT.md §3.",
+  "identity": {
+    "name": "Aaditya Sapkota",
+    "heroTagline": "Aspiring Data Scientist and Research Enthusiast",
+    "typedRoles": [
+      "Data Science Enthusiast", "Python Developer", "AI & ML Explorer", "Machine Learning Student",
+      "Web Developer", "Frontend Developer", "Backend Developer", "Full Stack Developer",
+      "Software Developer", "Software Engineer", "Data Analyst", "Data Engineer", "Data Scientist"
+    ],
+    "_typedRolesNote": "Original had 35+ typed roles (mostly 'Data X Expert' filler). Not carried forward."
+  },
+  "about": [
+    "Passionate about Data Science and AI, I look forward to carry out my research and work as a Research Scientist.",
+    "Research Scientist with a strong data science and machine learning foundation driven to create impactful solutions. Skilled in programming, data analysis, and visualization with a proven leadership and event coordination track records."
+  ],
+  "_aboutNote": "Contains banned buzzwords ('impactful solutions', 'proven track record') and inflated 'Research Scientist' title. Rewritten honestly in src/data/site.ts.",
+  "skills_original": {
+    "Programming Languages": "Python, JavaScript, C++, Java, R, SQL, TypeScript, PHP, Ruby",
+    "Web Development": "HTML, CSS, React, Node.js, Angular, Express, Django, Flask",
+    "Data Science": "Pandas, Numpy, Scikit-Learn, TensorFlow, PyTorch, OpenCV",
+    "Cloud Technologies": "AWS, Google Cloud, Azure, Docker, Kubernetes, Linux, Git",
+    "Database Management": "MySQL, PostgreSQL, MongoDB, Redis, Oracle, SQLite, Firebase",
+    "Data Visualization": "Matplotlib, Seaborn, D3.js, Tableau, Power BI, Plotly, Excel"
+  },
+  "_skillsNote": "~45 technologies (skill inflation). Cut to an honest grouped set in src/data/skills.ts.",
+  "projects_fabricated_REMOVED": [
+    "AI Image Generator", "Data Analytics Dashboard", "Machine Learning Stock Predictor",
+    "Smart Home IoT System", "E-Commerce Platform", "Chatbot Assistant"
+  ],
+  "_projectsNote": "All six linked to nonexistent github.com/TechAaditya repos. Deleted entirely; replaced by real work in src/data/projects.ts.",
+  "blogs": [
+    { "title": "My First Blog", "url": "https://aadityasapkota.blogspot.com/2022/05/my-experience-in-creating-my-first-blog.html", "blurb": "Really Excited for gathering a new experience and new audience. This is the first time ever I am writing my new blog." },
+    { "title": "Don't miss anything!", "url": "https://aadityasapkota.blogspot.com/2024/03/dont-miss-anything.html", "blurb": "Enjoy every moment every bit of life that happens to you for don't behave like you have got thousand years to live." },
+    { "title": "Differences", "url": "https://aadityasapkota.blogspot.com/2024/03/differences.html", "blurb": "Do you want an imperfect person who is ready to cope with you or one who is so perfect but ignorant of others?" }
+  ],
+  "blogIndex": "https://aadityasapkota.blogspot.com/",
+  "links_original": {
+    "linkedin": "https://www.linkedin.com/in/aadityasapkota/",
+    "github": "https://github.com/TechAaditya",
+    "twitter_x": "https://x.com/aadityabro1",
+    "facebook_DROPPED": "https://www.facebook.com/aaditya.sapkota.965/",
+    "instagram_DROPPED": "https://www.instagram.com/iamaadityas/"
+  },
+  "removed_features": [
+    "Fake contact form (no backend)",
+    "Newsletter subscribe form (no backend)",
+    "Embedded Google Maps iframe of Kathmandu University",
+    "Resume as JPG (myresume_updated.jpg) — replaced by public/resume.pdf",
+    "Typing animation (typed.js)",
+    "Boxicons CDN, unpkg CDN scripts (render-blocking)"
+  ],
+  "location": "Kathmandu, Nepal (Kathmandu University)",
+  "copyright_original": "© 2025 Aaditya Sapkota - All Rights Reserved"
+}
