@@ -1,7 +1,118 @@
+/* Self-hosted fonts (latin subsets only — lean payload, no CDN, no CLS) */
+@import '@fontsource/instrument-serif/latin-400.css';
+@import '@fontsource/instrument-serif/latin-400-italic.css';
+@import '@fontsource/geist-sans/latin-400.css';
+@import '@fontsource/geist-sans/latin-500.css';
+@import '@fontsource/geist-sans/latin-600.css';
+@import '@fontsource/geist-mono/latin-400.css';
+@import '@fontsource/geist-mono/latin-500.css';
+
 @import 'tailwindcss';
 
-/*
- * Design tokens (@theme), fonts, and base styles arrive in Phase 2
- * once the design plan is approved. Phase 0 keeps this minimal so the
- * scaffold builds clean.
- */
+/* ── Design tokens — "Night Observatory" (see docs/DESIGN.md) ───────────── */
+@theme {
+  /* Ocean Blue Serenity scale, AA-checked on --color-space */
+  --color-space: #020617; /* page background — deep space */
+  --color-abyss: #0a1430; /* elevated surface / card fill */
+  --color-foam: #e6f5fb; /* primary text (~15.5:1) */
+  --color-mist: #93a9c8; /* secondary text / labels (~7.3:1) */
+  --color-signal: #48cae4; /* primary accent (~9.8:1) */
+  --color-signal-deep: #00b4d8; /* deeper accent for fills */
+  --color-ember: #ee9b00; /* rare warm accent — one or two moments */
+
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-sans: 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Fluid display steps */
+  --text-hero: clamp(3rem, 12vw, 9rem);
+  --text-display: clamp(2.25rem, 6vw, 4.5rem);
+  --text-title: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --line: color-mix(in oklab, var(--color-signal) 12%, transparent);
+    --line-strong: color-mix(in oklab, var(--color-signal) 22%, transparent);
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-space);
+    color: var(--color-foam);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-signal) 30%, transparent);
+    color: var(--color-foam);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* ── The signature motif: faint star-chart coordinate grid ──────────────── */
+@layer components {
+  /* Fixed, behind everything, zero JS. Two gradients = a graph-paper sky. */
+  .star-grid {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: clamp(48px, 7vw, 88px) clamp(48px, 7vw, 88px);
+    /* fade the grid out toward the edges so it reads as an instrument, not a table */
+    -webkit-mask-image: radial-gradient(ellipse 120% 90% at 50% 35%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(ellipse 120% 90% at 50% 35%, #000 30%, transparent 78%);
+  }
+
+  /* A single ember "star" plotted on the chart, placed per-use. */
+  .plot-star {
+    color: var(--color-ember);
+  }
+
+  /* mono instrument-readout label */
+  .readout {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-mist);
+  }
+}
+
+/* ── Reduced motion: kill all animation, keep the static chart ──────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

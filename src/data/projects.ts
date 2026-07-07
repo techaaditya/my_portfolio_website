@@ -1,28 +1,34 @@
 /**
- * Real projects only — replaces every fabricated card on the old site.
- * Team efforts are credited honestly. `year` + `discipline` power the
- * nithin-style project labels. Every `liveUrl`/`repoUrl` is checked by
- * `npm run verify:links` before shipping.
+ * Real projects only — curated from Aaditya's own GitHub (github.com/TechAaditya)
+ * plus verified live work. Descriptions are grounded in each repo's README, not
+ * invented. `year` + `discipline` power the nithin-style project labels.
+ * Every liveUrl/repoUrl is checked by `npm run verify:links` before shipping.
+ *
+ * Curation over accumulation: a focused set that foregrounds the data/ML
+ * identity, bookended by two real event platforms. Aaditya can add more from
+ * his repos later (e.g. EcoFarma, KrishiBot, Nepali-News-Analytics).
  */
 
 export interface Project {
   readonly slug: string;
   readonly title: string;
-  /** 2–3 sentence description: what it does + Aaditya's role. */
+  /** 2–3 sentence description: what it does + Aaditya's role, grounded in the README. */
   readonly description: string;
   /** Year label shown in the index (nithin "year + discipline" treatment). */
   readonly year: string;
-  /** Discipline label, e.g. "Web platform" / "Event site". */
+  /** Discipline label, e.g. "Data platform" / "Event site". */
   readonly discipline: string;
   readonly stack: readonly string[];
   readonly liveUrl?: string;
   readonly repoUrl?: string;
-  /** Honest collaboration credit, e.g. "Built with the team at …". */
+  /** Honest collaboration/context credit, e.g. "Built for … hackathon". */
   readonly credit?: string;
   /** Featured = the large asymmetric hero-of-projects slot. */
   readonly featured?: boolean;
-  /** For in-progress work: shows a "currently building" state, may lack a link. */
+  /** Lifecycle: shows a "currently building" state, may lack a live link. */
   readonly status?: 'live' | 'building';
+  /** True if the live URL is known-unreachable and must not render as a link yet. */
+  readonly liveUnverified?: boolean;
 }
 
 export const projects: readonly Project[] = [
@@ -30,49 +36,59 @@ export const projects: readonly Project[] = [
     slug: 'kumun',
     title: 'KUMUN — Kathmandu University Model United Nations',
     description:
-      "Official event website for KU's Model UN — schedules, committee pages, and delegate registration. I built and maintain the site as part of the organizing team, translating a large multi-day event into clear, navigable pages.",
+      "The official website for KU's Model United Nations 2025 — committees, schedule, and delegate information. I built and maintain the site as part of the organizing team, turning a large multi-day event into clear, navigable pages.",
     year: '2025',
     discipline: 'Event platform',
-    stack: ['React', 'TypeScript', 'Tailwind'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
     liveUrl: 'https://kumun.ku.edu.np/',
+    repoUrl: 'https://github.com/TechAaditya/KUMUN2025_Website',
     credit: 'Built with the KUMUN organizing team at Kathmandu University',
     featured: true,
     status: 'live',
   },
   {
-    slug: 'damek-studios',
-    title: 'Damek Studios',
+    slug: 'knowlify',
+    title: 'Knowlify — Adaptive Cognitive Learning System',
     description:
-      'Marketing and studio site for a Nepal-based game development studio, presenting their team, projects, and contact. I worked on the front-end build and layout.',
+      'An AI-powered adaptive learning platform that turns raw educational documents into interactive knowledge graphs, tracks student mastery in real time with Bayesian Knowledge Tracing, and generates personalised study experiences. Built around five AI engines behind a FastAPI backend and a React frontend.',
     year: '2025',
-    discipline: 'Studio site',
-    stack: ['React', 'Tailwind'],
-    liveUrl: 'https://damekstudios.com/',
-    credit: 'Built with the team at Damek Studios',
+    discipline: 'AI learning platform',
+    stack: ['Python', 'FastAPI', 'React', 'TypeScript'],
+    repoUrl: 'https://github.com/TechAaditya/Knowlify',
     status: 'live',
   },
   {
-    slug: 'dodolr',
-    title: 'Dodolr',
+    slug: 'resolveiq',
+    title: 'ResolveIQ — Claims Intake & Resolution Agent',
     description:
-      'A task, notes, and follow-up tracker for individuals and small teams — capture work, keep track of what needs a follow-up, and stay on top of loose ends. I contributed to the product web build.',
-    year: '2025',
-    discipline: 'Productivity web app',
-    stack: ['React', 'TypeScript', 'Node.js'],
-    liveUrl: 'https://www.dodolr.com/',
-    credit: 'Built with a small product team',
+      'Takes an insurance claim in any messy form — scanned PDF, phone photo, voice memo, plain email — structures it, and makes a deterministic auto-approve / flag / reject decision by cross-checking coding and protocol compliance against an API and an explainable knowledge graph. AI (Qwen) only reads and structures the input; the decision itself is inspectable code, never a model guess.',
+    year: '2026',
+    discipline: 'Agentic AI',
+    stack: ['Python', 'TypeScript', 'Knowledge graph', 'LLM'],
+    repoUrl: 'https://github.com/TechAaditya/ResolveIQ',
+    credit: 'Built for the Global AI Hackathon Series',
     status: 'live',
   },
   {
-    slug: 'tinkune',
-    title: 'Tinkune',
+    slug: 'intelliflow',
+    title: 'IntelliFlow — Unified Intelligent Data Platform',
     description:
-      'A platform connecting Nepalese businesses worldwide, including job listings. I worked on the web front-end, building out the listings and directory experience.',
+      'Consolidates separate data-science workflows into one system: a shared ingestion layer feeding pluggable engines behind a single API gateway and dashboard. The AutoML engine handles preprocessing, hyperparameter optimisation with Optuna, experiment tracking with MLflow, and model deployment; analytics and agent-orchestration engines are in progress.',
+    year: '2026',
+    discipline: 'ML platform',
+    stack: ['Python', 'Optuna', 'MLflow'],
+    repoUrl: 'https://github.com/TechAaditya/IntelliFlow',
+    status: 'live',
+  },
+  {
+    slug: 'trekverse',
+    title: 'TrekVerse — Trek Recommendation & Analytics',
+    description:
+      'A recommendation and analytics system built on the Nepal Trekking Dataset. It lets beginners and seasoned hikers weigh multiple preferences at once — difficulty, duration, elevation gain, cost, and season — to find treks that fit, instead of relying on informal word-of-mouth suggestions.',
     year: '2025',
-    discipline: 'Web platform',
-    stack: ['React', 'Node.js', 'Tailwind'],
-    liveUrl: 'https://www.tinkune.com/',
-    credit: 'Built with a product team',
+    discipline: 'Data science',
+    stack: ['Python', 'Jupyter', 'pandas'],
+    repoUrl: 'https://github.com/TechAaditya/TrekVerse',
     status: 'live',
   },
   {
@@ -84,17 +100,20 @@ export const projects: readonly Project[] = [
     discipline: 'Booking platform',
     stack: ['React', 'Tailwind'],
     liveUrl: 'https://jyotirvidhya.com/',
-    credit: 'Built with a product team',
+    // Server currently unreachable (see docs/DECISIONS.md) — flagged, not linked
+    // as live until confirmed. Kept at Aaditya's request ("leave for now").
+    liveUnverified: true,
     status: 'live',
   },
   {
     slug: 'global-youth-hackathon-2026',
     title: 'Global Youth Hackathon 2026',
     description:
-      'The official event website for the Global Youth Hackathon 2026 — registration, schedule, and event information. Currently building it with the team ahead of the event.',
+      'The official event website for the Global Youth Hackathon 2026, organised by the Bagmati UNESCO Club — registration, schedule, and event information. Currently building it with the team ahead of the event.',
     year: '2026',
     discipline: 'Event site',
-    stack: ['React', 'TypeScript', 'Tailwind'],
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    repoUrl: 'https://github.com/TechAaditya/GlobalYouthHackathon2026',
     credit: 'Building with the Global Youth Hackathon team',
     status: 'building',
   },

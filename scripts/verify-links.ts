@@ -16,7 +16,8 @@ const targets: Target[] = [
   ...site.socials.map((s) => ({ label: `social:${s.id}`, url: s.url })),
   ...projects.flatMap((p) => {
     const t: Target[] = [];
-    if (p.liveUrl) t.push({ label: `project:${p.slug}:live`, url: p.liveUrl });
+    // Skip live URLs already flagged as unreachable (see DECISIONS.md).
+    if (p.liveUrl && !p.liveUnverified) t.push({ label: `project:${p.slug}:live`, url: p.liveUrl });
     if (p.repoUrl) t.push({ label: `project:${p.slug}:repo`, url: p.repoUrl });
     return t;
   }),

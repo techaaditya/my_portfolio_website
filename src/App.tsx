@@ -1,24 +1,37 @@
-import { site } from './data/site';
-import { projects } from './data/projects';
-import { skillGroups } from './data/skills';
-import { posts } from './data/writing';
-import { about } from './data/about';
+import { MotionConfig } from 'motion/react';
+import { StarChart } from '@/components/StarChart';
+import { Nav } from '@/components/Nav';
+import { Hero } from '@/sections/Hero';
+import { Work } from '@/sections/Work';
+import { About } from '@/sections/About';
+import { Writing } from '@/sections/Writing';
+import { Contact } from '@/sections/Contact';
+import { Footer } from '@/sections/Footer';
 
-/**
- * Phase 0 scaffold placeholder.
- * This exists only to prove the typed data files compile and the build is
- * clean. The real UI is built in Phase 2+ after the design plan is approved.
- */
 export default function App() {
   return (
-    <main style={{ fontFamily: 'system-ui, sans-serif', padding: '2rem', lineHeight: 1.6 }}>
-      <h1>{site.name}</h1>
-      <p>{site.roleLine}</p>
-      <p>
-        Scaffold ready — {projects.length} projects, {skillGroups.length} skill groups,{' '}
-        {posts.length} posts, {about.length} about paragraphs loaded from typed data.
-      </p>
-      <p>Design plan pending approval (Phase 1). UI arrives in Phase 2.</p>
-    </main>
+    // `reducedMotion="user"` makes every Motion animation honor
+    // prefers-reduced-motion automatically.
+    <MotionConfig reducedMotion="user">
+      <a
+        href="#home"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-signal focus:px-4 focus:py-2 focus:text-space"
+      >
+        Skip to content
+      </a>
+
+      <StarChart />
+      <Nav />
+
+      <main id="main">
+        <Hero />
+        <Work />
+        <About />
+        <Writing />
+        <Contact />
+      </main>
+
+      <Footer />
+    </MotionConfig>
   );
 }
