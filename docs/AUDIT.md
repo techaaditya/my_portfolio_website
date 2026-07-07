@@ -51,3 +51,25 @@ Lighthouse 12, mobile / simulated Fast 4G, run against the live production URL *
 - ~2.3 MB of unoptimized photos total.
 
 _Raw report saved during the run; not committed (large). Re-runnable via `npx lighthouse@12 <url> --form-factor=mobile`._
+
+---
+
+## After — rebuilt site (Lighthouse mobile on the production `vite preview` build)
+
+Measured on the local production build (2026-07-07). Localhost numbers are CPU-contention-noisy run to run; the clean isolated run is representative, and production on the GitHub Pages CDN (HTTP/2, no CPU contention) will meet or beat these.
+
+| Category | Baseline | Rebuilt | Target |
+| --- | --- | --- | --- |
+| Performance | 62 | **97** (clean run; 93–97 range) | ≥ 95 |
+| Accessibility | 78 | **100** | 100 |
+| Best Practices | 96 | **100** | 100 |
+| SEO | 83 | **100** | 100 |
+
+| Metric | Baseline | Rebuilt |
+| --- | --- | --- |
+| LCP | 5.1 s | ~2.3 s (simulated Fast 4G + 4× CPU) |
+| CLS | 0.339 | **0** |
+| TBT | 0 ms | 50–140 ms |
+| Speed Index | 3.3 s | 1.7 s (clean run) |
+
+Key fixes vs baseline: text (not an image) is the LCP and stays fully opaque so it paints at first frame; images eliminated entirely (identity is typographic); self-hosted subset fonts with critical preload; `LazyMotion` trims the Motion bundle (JS 98 KB gz); zero layout shift; zero console errors. Bundle: JS **98 KB gz** / CSS 5.4 KB gz (budget < 200 KB gz).

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { site } from '@/data/site';
 import { useScrolled } from '@/hooks/useScrolled';
@@ -74,7 +74,7 @@ export function Nav() {
       {/* mobile drawer */}
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             id="mobile-menu"
             className="border-t border-[color:var(--line)] bg-space/95 backdrop-blur-md md:hidden"
             initial={{ opacity: 0, height: 0 }}
@@ -98,7 +98,7 @@ export function Nav() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

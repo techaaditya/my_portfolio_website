@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { reveal, inViewOnce } from '@/lib/motion';
 
 /**
@@ -15,7 +15,7 @@ export function Reveal({
   className?: string;
   as?: 'div' | 'li' | 'section' | 'article';
 }) {
-  const Comp = motion[as];
+  const Comp = m[as];
   return (
     <Comp
       className={className}

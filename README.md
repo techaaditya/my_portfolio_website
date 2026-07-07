@@ -39,7 +39,11 @@ Edit those files and rebuild; the UI reads from them. After editing links, run `
 
 ## Deployment
 
-GitHub Pages via a GitHub Actions workflow (added in Phase 5) that builds and deploys `dist/` on push to `main`. The `public/CNAME` file keeps the custom domain (`www.aadityasapkota.com.np`) and HTTPS intact.
+GitHub Pages via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) — it builds and deploys `dist/` on every push to `main`. `public/CNAME` keeps the custom domain (`www.aadityasapkota.com.np`) and HTTPS intact.
+
+**One-time setup** (do this once before the first Actions deploy): in the repo **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (it's currently "Deploy from a branch"). Until then the old branch deploy keeps the current live site up.
+
+**To ship the rebuild:** merge the `rebuild` branch into `main` and push. The workflow runs automatically and publishes. To preview locally first: `npm run dev` (hot reload) or `npm run build && npm run preview` (production build).
 
 ## Project docs
 

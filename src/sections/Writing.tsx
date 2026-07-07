@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { posts, allPostsUrl } from '@/data/writing';
 import { SectionHeader } from '@/components/SectionHeader';
@@ -9,7 +9,7 @@ export function Writing() {
     <section id="writing" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-24 md:px-8 md:py-32">
       <SectionHeader index="04" label="Writing" title="Notes & essays" />
 
-      <motion.ul
+      <m.ul
         className="border-t border-[color:var(--line)]"
         variants={revealGroup}
         initial="hidden"
@@ -17,7 +17,7 @@ export function Writing() {
         viewport={inViewOnce}
       >
         {posts.map((post) => (
-          <motion.li key={post.url} variants={reveal} className="border-b border-[color:var(--line)]">
+          <m.li key={post.url} variants={reveal} className="border-b border-[color:var(--line)]">
             <a
               href={post.url}
               target="_blank"
@@ -36,9 +36,9 @@ export function Writing() {
                 className="hidden text-mist transition-all group-hover:text-signal md:block md:justify-self-end"
               />
             </a>
-          </motion.li>
+          </m.li>
         ))}
-      </motion.ul>
+      </m.ul>
 
       <a
         href={allPostsUrl}

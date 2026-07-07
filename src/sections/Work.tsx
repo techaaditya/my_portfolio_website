@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { Star } from 'lucide-react';
 import { featuredProject, otherProjects } from '@/data/projects';
 import type { Project } from '@/data/projects';
@@ -15,7 +15,7 @@ export function Work() {
 
       {featuredProject && <Featured project={featuredProject} />}
 
-      <motion.ul
+      <m.ul
         className="mt-6 border-t border-[color:var(--line)]"
         variants={revealGroup}
         initial="hidden"
@@ -25,7 +25,7 @@ export function Work() {
         {otherProjects.map((p) => (
           <Row key={p.slug} project={p} />
         ))}
-      </motion.ul>
+      </m.ul>
     </section>
   );
 }
@@ -62,7 +62,7 @@ function Featured({ project }: { project: Project }) {
 /** Compact index row: year/discipline readout + title, hover crosshair + lift. */
 function Row({ project }: { project: Project }) {
   return (
-    <motion.li variants={reveal} className="border-b border-[color:var(--line)]">
+    <m.li variants={reveal} className="border-b border-[color:var(--line)]">
       <div className="group grid gap-3 py-6 transition-colors md:grid-cols-[8rem_1fr_auto] md:items-baseline md:gap-6 md:py-7">
         <div className="readout flex items-center gap-2 text-mist md:flex-col md:items-start md:gap-1">
           <span>{project.year}</span>
@@ -82,6 +82,6 @@ function Row({ project }: { project: Project }) {
 
         <ProjectLinks project={project} className="md:justify-end" />
       </div>
-    </motion.li>
+    </m.li>
   );
 }

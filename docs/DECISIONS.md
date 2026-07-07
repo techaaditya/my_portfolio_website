@@ -28,6 +28,20 @@ No `tailwind.config.js`; tokens live in `@theme` in `src/index.css`, added in Ph
 **Link verification is a real script (`npm run verify:links`).**
 Fetches every URL in the data files. Classifies bot-block statuses (403/429/999) as WARN — LinkedIn always returns **999** to automated requests but is fine in a browser — and genuine connection failures as DEAD (fails the build). Satisfies §6 "verify every link at build time; flag any dead one."
 
+## Phase 2–5 — build, design, performance
+
+**"Night Observatory" design system.** Ocean-blue tokens in Tailwind v4 `@theme`; Instrument Serif (display) + Geist Sans (body) + Geist Mono (readouts). The one signature motif is the star-chart coordinate system (CSS grid + plotted stars + mono instrument-readout labels + a recurring crosshair mark); the featured project is the single ember star. Full rationale in `docs/DESIGN.md`.
+
+**Zero content photos.** The design deliberately omits the portrait — identity comes from type and work (per the brief). This also removes the biggest performance liability from the old site (multi-MB images) for free; there are no raster content images to optimize.
+
+**Real projects from GitHub, curated.** Removed Damek Studios / Dodolr / Tinkune (Aaditya confirmed they aren't his). Featured KUMUN (live + repo); added Knowlify, ResolveIQ, IntelliFlow, TrekVerse from his GitHub with descriptions grounded in each README; GYH 2026 as "building". Jyotirvidhya kept but rendered "Site offline" (unreachable), never linked.
+
+**Résumé button always renders.** Dropped the runtime HEAD-probe hook: the PDF is a committed build asset, so the probe was needless complexity and produced a spurious `ERR_ABORTED` in the console.
+
+**Performance.** `LazyMotion` + `domAnimation` instead of the full `motion` bundle (JS 112 → 98 KB gz). Critical fonts preloaded via a small Vite plugin (parallelizes with CSS, removes swap flash). The hero name (LCP element) stays fully opaque and animates only a transform, so LCP fires at first paint instead of waiting on an opacity fade — this cut Speed Index ~3.9 → 1.7s and lifted Performance to 97 (clean run). Final: Perf 97 / A11y 100 / BP 100 / SEO 100, CLS 0.
+
+**Deploy: GitHub Actions → Pages (stay on Pages, keep CNAME).** `.github/workflows/deploy.yml` builds and deploys `dist/` on push to `main`. **One-time manual step Aaditya must do:** in the repo's Settings → Pages, switch "Build and deployment → Source" from "Deploy from a branch" to **"GitHub Actions"**. Until then the old branch-based deploy stays active (live site unaffected). `public/CNAME` keeps the custom domain; Vite `base` is `/` (served at domain root, not a project subpath).
+
 ## Flagged content issues (need Aaditya's input)
 
 - **jyotirvidhya.com is unreachable.** DNS resolves (Hostinger IPs), but the server does not answer on port 443 from here — connection times out with HEAD, GET, browser UA, and the `www.` variant alike. This is an outage or a geo/firewall block, not a bot block. Per §6 it is **flagged, not shipped and not deleted**: it stays in `projects.ts` but must not render as a live link until confirmed working. **Decision needed:** is the site temporarily down (keep, recheck before ship), permanently gone (drop the project), or moved (update the URL)?

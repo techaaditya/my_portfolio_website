@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { ArrowUpRight, FileText } from 'lucide-react';
 import { site } from '@/data/site';
 import { SocialLinks } from '@/components/SocialLinks';
@@ -14,8 +14,8 @@ export function Hero() {
       className="relative mx-auto flex min-h-svh max-w-6xl flex-col justify-center px-5 pt-24 pb-16 md:px-8"
     >
       {/* orchestrated load sequence: readout → name → role → actions */}
-      <motion.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.12 } } }}>
-        <motion.p
+      <m.div initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.08 } } }}>
+        <m.p
           className="readout flex items-center gap-2.5"
           variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.5, ease } } }}
         >
@@ -25,22 +25,25 @@ export function Hero() {
             ·
           </span>
           <span>{KATHMANDU}</span>
-        </motion.p>
+        </m.p>
 
-        <motion.h1
+        {/* Name is the LCP element: it stays fully opaque so LCP fires at first
+            paint. Only a subtle transform animates the entrance — transforms
+            don't delay LCP the way an opacity fade-in from 0 does. */}
+        <m.h1
           className="mt-5 font-display leading-[0.95] text-foam"
           style={{ fontSize: 'var(--text-hero)' }}
           variants={{
-            hidden: { opacity: 0, y: 20 },
-            show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
+            hidden: { y: 18 },
+            show: { y: 0, transition: { duration: 0.7, ease } },
           }}
         >
           Aaditya
           <br />
           Sapkota
-        </motion.h1>
+        </m.h1>
 
-        <motion.p
+        <m.p
           className="mt-6 max-w-xl text-lg text-mist md:text-xl"
           variants={{
             hidden: { opacity: 0, y: 12 },
@@ -48,9 +51,9 @@ export function Hero() {
           }}
         >
           {site.roleLine}. Based in {site.location} — {site.locationDetail}.
-        </motion.p>
+        </m.p>
 
-        <motion.div
+        <m.div
           className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3"
           variants={{
             hidden: { opacity: 0, y: 12 },
@@ -71,8 +74,8 @@ export function Hero() {
             />
           </a>
           <SocialLinks />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </section>
   );
 }
