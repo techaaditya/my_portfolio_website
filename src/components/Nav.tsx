@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AnimatePresence, m } from 'motion/react';
+import { AnimatePresence, m, useScroll } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { site } from '@/data/site';
 import { useScrolled } from '@/hooks/useScrolled';
@@ -20,16 +20,24 @@ export function Nav() {
   const scrolled = useScrolled();
   const active = useActiveSection(SECTION_IDS);
   const [open, setOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
 
   return (
     <header
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-colors duration-300',
         scrolled
-          ? 'border-b border-[color:var(--line)] bg-space/80 backdrop-blur-md'
+          ? 'border-b border-[color:var(--line)] bg-space/70 backdrop-blur-md'
           : 'border-b border-transparent',
       )}
     >
+      {/* aurora scroll-progress hairline */}
+      <m.div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-[2px] origin-left"
+        style={{ scaleX: scrollYProgress, background: 'var(--gradient-aurora)' }}
+      />
+
       <nav
         aria-label="Primary"
         className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8"
@@ -49,8 +57,8 @@ export function Nav() {
                 href={`#${item.id}`}
                 aria-current={active === item.id ? 'true' : undefined}
                 className={cn(
-                  'readout transition-colors hover:text-foam',
-                  active === item.id ? 'text-signal' : 'text-mist',
+                  'readout relative transition-colors hover:text-foam',
+                  active === item.id ? 'text-cyan' : 'text-mist',
                 )}
               >
                 {item.label}
@@ -89,8 +97,8 @@ export function Nav() {
                     href={`#${item.id}`}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      'block py-3 text-lg transition-colors',
-                      active === item.id ? 'text-signal' : 'text-foam',
+                      'block py-3 font-display text-2xl transition-colors',
+                      active === item.id ? 'text-aurora' : 'text-foam',
                     )}
                   >
                     {item.label}

@@ -18,13 +18,12 @@
         min-height: 100svh;
         display: grid;
         place-items: center;
-        background: #020617;
-        color: #e6f5fb;
+        background: #050112;
+        color: #f1edfd;
         font-family: 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
         background-image:
-          linear-gradient(to right, rgba(72, 202, 228, 0.12) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(72, 202, 228, 0.12) 1px, transparent 1px);
-        background-size: 72px 72px;
+          radial-gradient(60vmax 60vmax at 15% 10%, rgba(124, 58, 237, 0.22), transparent 60%),
+          radial-gradient(50vmax 50vmax at 85% 85%, rgba(34, 211, 238, 0.12), transparent 60%);
         text-align: center;
         padding: 2rem;
       }
@@ -33,7 +32,7 @@
         font-size: 0.72rem;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: #93a9c8;
+        color: #a49bce;
       }
       h1 {
         font-family: ui-serif, Georgia, 'Times New Roman', serif;
@@ -41,9 +40,13 @@
         font-weight: 400;
         line-height: 1;
         margin: 0.5rem 0 1rem;
+        background: linear-gradient(120deg, #a78bfa, #22d3ee 45%, #e879f9 90%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
       }
       p {
-        color: #93a9c8;
+        color: #a49bce;
         max-width: 32rem;
         margin: 0 auto 2rem;
       }
@@ -51,9 +54,9 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        border: 1px solid rgba(72, 202, 228, 0.4);
-        background: rgba(72, 202, 228, 0.1);
-        color: #e6f5fb;
+        border: 1px solid rgba(167, 139, 250, 0.4);
+        background: rgba(167, 139, 250, 0.1);
+        color: #f1edfd;
         text-decoration: none;
         padding: 0.65rem 1.25rem;
         border-radius: 999px;
@@ -61,7 +64,7 @@
         transition: border-color 0.2s;
       }
       a:hover {
-        border-color: #48cae4;
+        border-color: #a78bfa;
       }
     </style>
   </head>
@@ -70,7 +73,7 @@
       <p class="readout">Error 404 · off the chart</p>
       <h1>Lost in space</h1>
       <p>That coordinate isn't plotted. The page you're looking for doesn't exist.</p>
-      <a href="/">← Back to the observatory</a>
+      <a href="/">← Back to the constellation</a>
     </div>
   </body>
 </html>
