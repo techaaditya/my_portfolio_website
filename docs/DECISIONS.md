@@ -34,7 +34,7 @@ Fetches every URL in the data files. Classifies bot-block statuses (403/429/999)
 
 **Zero content photos.** The design deliberately omits the portrait — identity comes from type and work (per the brief). This also removes the biggest performance liability from the old site (multi-MB images) for free; there are no raster content images to optimize.
 
-**Real projects from GitHub, curated.** Removed Damek Studios / Dodolr / Tinkune (Aaditya confirmed they aren't his). Featured KUMUN (live + repo); added Knowlify, ResolveIQ, IntelliFlow, TrekVerse from his GitHub with descriptions grounded in each README; GYH 2026 as "building". Jyotirvidhya kept but rendered "Site offline" (unreachable), never linked.
+**Real projects from GitHub, curated.** Removed Damek Studios / Dodolr / Tinkune (Aaditya confirmed they aren't his). Featured KUMUN (live + repo); added Knowlify, ResolveIQ, IntelliFlow, TrekVerse, EcoFarma, KrishiBot, Nepali News Analytics from his GitHub with descriptions grounded in each README/About; GYH 2026 as "building". Jyotirvidhya removed entirely at Aaditya's request (its server was unreachable — see below) rather than kept flagged.
 
 **Résumé button always renders.** Dropped the runtime HEAD-probe hook: the PDF is a committed build asset, so the probe was needless complexity and produced a spurious `ERR_ABORTED` in the console.
 
@@ -42,9 +42,9 @@ Fetches every URL in the data files. Classifies bot-block statuses (403/429/999)
 
 **Deploy: GitHub Actions → Pages (stay on Pages, keep CNAME).** `.github/workflows/deploy.yml` builds and deploys `dist/` on push to `main`. **One-time manual step Aaditya must do:** in the repo's Settings → Pages, switch "Build and deployment → Source" from "Deploy from a branch" to **"GitHub Actions"**. Until then the old branch-based deploy stays active (live site unaffected). `public/CNAME` keeps the custom domain; Vite `base` is `/` (served at domain root, not a project subpath).
 
-## Flagged content issues (need Aaditya's input)
+## Resolved content issues
 
-- **jyotirvidhya.com is unreachable.** DNS resolves (Hostinger IPs), but the server does not answer on port 443 from here — connection times out with HEAD, GET, browser UA, and the `www.` variant alike. This is an outage or a geo/firewall block, not a bot block. Per §6 it is **flagged, not shipped and not deleted**: it stays in `projects.ts` but must not render as a live link until confirmed working. **Decision needed:** is the site temporarily down (keep, recheck before ship), permanently gone (drop the project), or moved (update the URL)?
+- **jyotirvidhya.com was unreachable** (DNS resolved to Hostinger IPs, but the server never answered on port 443 — an outage or firewall block, not a bot block). Flagged per §6 rather than shipped as a working link. Aaditya confirmed on 2026-07-07 to drop it from the site for now; the entry was removed from `projects.ts` (recoverable via git history). Replaced with three real GitHub projects: EcoFarma, KrishiBot, Nepali News Analytics.
 
 ## Confirmed content decisions (from the user, Phase 0)
 

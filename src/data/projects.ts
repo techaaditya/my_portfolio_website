@@ -6,7 +6,7 @@
  *
  * Curation over accumulation: a focused set that foregrounds the data/ML
  * identity, bookended by two real event platforms. Aaditya can add more from
- * his repos later (e.g. EcoFarma, KrishiBot, Nepali-News-Analytics).
+ * his repos later.
  */
 
 export interface Project {
@@ -92,17 +92,37 @@ export const projects: readonly Project[] = [
     status: 'live',
   },
   {
-    slug: 'jyotirvidhya',
-    title: 'Jyotirvidhya',
+    slug: 'ecofarma',
+    title: 'EcoFarma — Climate-Smart Farming Simulation',
     description:
-      'A Vedic astrology consultation platform with service listings and appointment booking. I contributed to the front-end build and the booking flow.',
-    year: '2024',
-    discipline: 'Booking platform',
-    stack: ['React', 'Tailwind'],
-    liveUrl: 'https://jyotirvidhya.com/',
-    // Server currently unreachable (see docs/DECISIONS.md) — flagged, not linked
-    // as live until confirmed. Kept at Aaditya's request ("leave for now").
-    liveUnverified: true,
+      'A climate-smart farming simulation powered by Nepalese agricultural data and real-time weather conditions, helping model how crop decisions play out under actual local climate patterns.',
+    year: '2025',
+    discipline: 'Data science',
+    stack: ['Python', 'Jupyter', 'JavaScript'],
+    repoUrl: 'https://github.com/TechAaditya/EcoFarma',
+    status: 'live',
+  },
+  {
+    slug: 'krishibot',
+    title: 'KrishiBot — Farmer-Centric Crop Risk & Advisory Platform',
+    description:
+      'An integrated agricultural platform combining crop risk analysis and forecasting, deep-learning plant disease detection, soil-type prediction, crop recommendations, a farmer community forum, and a voice-enabled AI assistant. Built with a Next.js frontend and FastAPI backend, drawing on the NARC Nepal soil API and Open-Meteo weather data.',
+    year: '2025',
+    discipline: 'AI + agriculture',
+    stack: ['TypeScript', 'Python', 'Next.js', 'FastAPI'],
+    repoUrl: 'https://github.com/TechAaditya/KrishiBot-main',
+    credit: 'Originally built for KU Hackfest 2025',
+    status: 'live',
+  },
+  {
+    slug: 'nepali-news-analytics',
+    title: 'Nepali News Analytics',
+    description:
+      'A data science workflow analysing a large Nepali news corpus — EDA, category-balanced sampling, text preprocessing for Nepali content, and classification with Naive Bayes, SVM, and Random Forest, alongside sentiment analysis, UDPipe-based entity recognition, and TextRank extractive summarisation, documented in a reproducible R Markdown report.',
+    year: '2025',
+    discipline: 'Data science',
+    stack: ['R', 'Python', 'R Markdown'],
+    repoUrl: 'https://github.com/TechAaditya/Nepali-News-Analytics_R-programming',
     status: 'live',
   },
   {
