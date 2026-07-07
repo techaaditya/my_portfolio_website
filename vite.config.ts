@@ -10,10 +10,13 @@ import { fileURLToPath, URL } from 'node:url';
  * removes the font-swap flash and steadies LCP.
  */
 function preloadCriticalFonts(): Plugin {
+  // Only the faces that paint the hero (LCP paragraph = sans, name = serif
+  // both styles). Mono is small readout labels — it can swap in late rather
+  // than compete with the LCP font for bandwidth.
   const critical = [
     /instrument-serif-latin-400-normal.*\.woff2$/,
+    /instrument-serif-latin-400-italic.*\.woff2$/, // hero "Sapkota" is italic
     /geist-sans-latin-400-normal.*\.woff2$/,
-    /geist-mono-latin-400-normal.*\.woff2$/,
   ];
   return {
     name: 'preload-critical-fonts',

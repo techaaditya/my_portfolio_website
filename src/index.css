@@ -9,37 +9,121 @@
 
 @import 'tailwindcss';
 
-/* ── Design tokens — "Night Observatory" (see docs/DESIGN.md) ───────────── */
+/* ── Design tokens — "Living Constellation" ─────────────────────────────────
+   An immersive night sky that is *full*, not empty: a reactive particle
+   field, aurora color washes, and kinetic type. Violet is the lead accent;
+   cyan and magenta complete the aurora; ember stays the single warm note. */
 @theme {
-  /* Ocean Blue Serenity scale, AA-checked on --color-space */
-  --color-space: #020617; /* page background — deep space */
-  --color-abyss: #0a1430; /* elevated surface / card fill */
-  --color-foam: #e6f5fb; /* primary text (~15.5:1) */
-  --color-mist: #93a9c8; /* secondary text / labels (~7.3:1) */
-  --color-signal: #48cae4; /* primary accent (~9.8:1) */
-  --color-signal-deep: #00b4d8; /* deeper accent for fills */
-  --color-ember: #ee9b00; /* rare warm accent — one or two moments */
+  --color-space: #050112; /* page background — violet-black */
+  --color-abyss: #0e0826; /* elevated surface / card fill */
+  --color-foam: #f1edfd; /* primary text (~16:1) */
+  --color-mist: #a49bce; /* secondary text / labels (~7:1) */
+  --color-signal: #a78bfa; /* lead accent — aurora violet (~6.9:1) */
+  --color-signal-deep: #7c3aed; /* deeper violet for fills */
+  --color-cyan: #22d3ee; /* aurora cyan (~10:1) */
+  --color-magenta: #e879f9; /* aurora magenta (~7.4:1) */
+  --color-ember: #fbbf24; /* rare warm accent — one or two moments */
 
   --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
   --font-sans: 'Geist Sans', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', monospace;
 
   /* Fluid display steps */
-  --text-hero: clamp(3rem, 12vw, 9rem);
-  --text-display: clamp(2.25rem, 6vw, 4.5rem);
+  --text-hero: clamp(3.2rem, 13.5vw, 10.5rem);
+  --text-display: clamp(2.5rem, 7vw, 5.25rem);
   --text-title: clamp(1.75rem, 4vw, 2.75rem);
+
+  --animate-marquee: marquee 36s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 42s linear infinite;
+  --animate-aurora-pan: aurora-pan 9s ease-in-out infinite alternate;
+  --animate-pulse-dot: pulse-dot 2.2s ease-in-out infinite;
+  --animate-drift-a: drift-a 26s ease-in-out infinite alternate;
+  --animate-drift-b: drift-b 32s ease-in-out infinite alternate;
+  --animate-drift-c: drift-c 38s ease-in-out infinite alternate;
+  --animate-scroll-cue: scroll-cue 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes aurora-pan {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 100% 50%;
+    }
+  }
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.7);
+    }
+  }
+  @keyframes drift-a {
+    from {
+      transform: translate3d(-8%, -6%, 0) scale(1);
+    }
+    to {
+      transform: translate3d(10%, 8%, 0) scale(1.15);
+    }
+  }
+  @keyframes drift-b {
+    from {
+      transform: translate3d(6%, 10%, 0) scale(1.1);
+    }
+    to {
+      transform: translate3d(-10%, -8%, 0) scale(0.95);
+    }
+  }
+  @keyframes drift-c {
+    from {
+      transform: translate3d(0%, 6%, 0) scale(0.95) rotate(0deg);
+    }
+    to {
+      transform: translate3d(4%, -10%, 0) scale(1.2) rotate(8deg);
+    }
+  }
+  @keyframes scroll-cue {
+    0% {
+      transform: translateY(-100%);
+    }
+    55%,
+    100% {
+      transform: translateY(100%);
+    }
+  }
 }
 
 /* ── Base ───────────────────────────────────────────────────────────────── */
 @layer base {
   :root {
-    --line: color-mix(in oklab, var(--color-signal) 12%, transparent);
-    --line-strong: color-mix(in oklab, var(--color-signal) 22%, transparent);
+    --line: color-mix(in oklab, var(--color-signal) 14%, transparent);
+    --line-strong: color-mix(in oklab, var(--color-signal) 26%, transparent);
+    --gradient-aurora: linear-gradient(
+      120deg,
+      var(--color-signal) 0%,
+      var(--color-cyan) 45%,
+      var(--color-magenta) 90%
+    );
     color-scheme: dark;
   }
 
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -51,15 +135,16 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-signal) 30%, transparent);
+    background: color-mix(in oklab, var(--color-signal) 35%, transparent);
     color: var(--color-foam);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-signal);
+    outline: 2px solid var(--color-cyan);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -68,30 +153,17 @@
     color: inherit;
     text-decoration: none;
   }
+
+  /* the custom cursor replaces the native one only on precise pointers */
+  html.has-custom-cursor,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button {
+    cursor: none;
+  }
 }
 
-/* ── The signature motif: faint star-chart coordinate grid ──────────────── */
+/* ── Components ─────────────────────────────────────────────────────────── */
 @layer components {
-  /* Fixed, behind everything, zero JS. Two gradients = a graph-paper sky. */
-  .star-grid {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background-image:
-      linear-gradient(to right, var(--line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-    background-size: clamp(48px, 7vw, 88px) clamp(48px, 7vw, 88px);
-    /* fade the grid out toward the edges so it reads as an instrument, not a table */
-    -webkit-mask-image: radial-gradient(ellipse 120% 90% at 50% 35%, #000 30%, transparent 78%);
-    mask-image: radial-gradient(ellipse 120% 90% at 50% 35%, #000 30%, transparent 78%);
-  }
-
-  /* A single ember "star" plotted on the chart, placed per-use. */
-  .plot-star {
-    color: var(--color-ember);
-  }
-
   /* mono instrument-readout label */
   .readout {
     font-family: var(--font-mono);
@@ -100,13 +172,101 @@
     text-transform: uppercase;
     color: var(--color-mist);
   }
+
+  /* aurora gradient text — the signature type treatment. Static gradient:
+     animating background-position repaints the glyphs every frame. */
+  .text-aurora {
+    background: var(--gradient-aurora);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* gradient border card: transparent border painted with the aurora */
+  .aurora-border {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--color-abyss), var(--color-abyss)) padding-box,
+      linear-gradient(
+          140deg,
+          color-mix(in oklab, var(--color-signal) 55%, transparent),
+          color-mix(in oklab, var(--color-cyan) 35%, transparent) 50%,
+          color-mix(in oklab, var(--color-magenta) 45%, transparent)
+        )
+        border-box;
+  }
+
+  /* cursor-tracked spotlight overlay for cards (position set via --mx/--my) */
+  .spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in oklab, var(--color-signal) 14%, transparent),
+      transparent 65%
+    );
+  }
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+
+  /* edge-faded infinite marquee */
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: var(--animate-marquee);
+  }
+  .marquee-track-reverse {
+    display: flex;
+    width: max-content;
+    animation: var(--animate-marquee-reverse);
+  }
+  .marquee:hover .marquee-track,
+  .marquee:hover .marquee-track-reverse {
+    animation-play-state: paused;
+  }
+
+  /* hollow display type for the footer watermark */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in oklab, var(--color-signal) 40%, transparent);
+  }
+
+  /* link underline that sweeps in from the left */
+  .link-sweep {
+    background-image: var(--gradient-aurora);
+    background-repeat: no-repeat;
+    background-position: left 100%;
+    background-size: 0% 2px;
+    transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-sweep:hover,
+  .link-sweep:focus-visible {
+    background-size: 100% 2px;
+  }
 }
 
-/* ── Reduced motion: kill all animation, keep the static chart ──────────── */
+/* ── Ambient animation holds until first interaction (JS adds the class) ──
+   Motion-driven entrances are inline-style transforms and are unaffected;
+   only CSS keyframe loops (aurora, marquees, pulses) wait for a human. */
+html:not(.motion-armed) *,
+html:not(.motion-armed) *::before,
+html:not(.motion-armed) *::after {
+  animation-play-state: paused !important;
+}
+
+/* ── Reduced motion: kill all animation, keep everything readable ───────── */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {
@@ -114,5 +274,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  .marquee-track,
+  .marquee-track-reverse {
+    animation: none;
   }
 }

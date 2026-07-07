@@ -42,6 +42,20 @@ Fetches every URL in the data files. Classifies bot-block statuses (403/429/999)
 
 **Deploy: GitHub Actions → Pages (stay on Pages, keep CNAME).** `.github/workflows/deploy.yml` builds and deploys `dist/` on push to `main`. **One-time manual step Aaditya must do:** in the repo's Settings → Pages, switch "Build and deployment → Source" from "Deploy from a branch" to **"GitHub Actions"**. Until then the old branch-based deploy stays active (live site unaffected). `public/CNAME` keeps the custom domain; Vite `base` is `/` (served at domain root, not a project subpath).
 
+## v3 — "Living Constellation" immersive redesign (2026-07-07)
+
+**Why.** Aaditya reviewed the shipped "Night Observatory" design and rejected it: too dark and empty, no wow factor, too plain. He asked for an immersive, interactive, awwwards-style showpiece. Content, data files, and honesty rules unchanged — only the presentation layer was rebuilt.
+
+**The signature element: a raw-WebGL particle constellation** (`ParticleField.tsx`, ~4 KB — deliberately no three.js, which would triple the JS budget). Thousands of aurora-tinted points twinkle, drift, parallax with scroll, scatter from the cursor, and draw constellation lines between the brightest "majors" and toward the pointer. Backed by CSS aurora washes (`AuroraBg.tsx` — radial gradients, no blur filters) and a new violet/cyan/magenta token set.
+
+**Interaction layer.** Lenis smooth scroll; custom cursor (dot + trailing ring, `pointer: fine` only); magnetic buttons; 3D tilt + cursor-spotlight project cards; kinetic letter-by-letter hero name with a gradient line; scroll-lit About paragraphs; dual skill marquees; scroll-progress hairline in the nav; outline-type footer watermark with a live Kathmandu clock.
+
+**Performance strategy: nothing ambient runs before first interaction.** All WebGL work (even context creation + shader compile) and every CSS keyframe loop (aurora, marquees, pulses) hold until the visitor first moves/scrolls/touches (`lib/interaction.ts` + `html.motion-armed`); the sky then fades in. Below-fold sections are `React.lazy` chunks with per-section Suspense so no single boot task blocks. The hero paragraph (LCP element) and name animate transform-only — opacity fades would delay LCP (same trap as v2). `.text-aurora` is a static gradient — animating background-position repainted glyphs every frame. Word-level scroll lighting uses plain spans driven by one scroll subscription, not 120 Motion components (that was an 850 ms boot task).
+
+**Measured (local `vite preview`, Lighthouse 12).** Desktop: **Perf 98 / A11y 100 / BP 100 / SEO 100**, LCP 1.0 s, TBT 80 ms. Mobile (simulated Moto G, 4× CPU throttle + Fast 4G): **Perf 72 / 100 / 100 / 100**, TBT 620 ms, CLS ~0. The mobile number is the honest cost of an immersive SPA on a throttled low-end device (awwwards-class sites typically score 30–60); the remaining gap is JS-boot FCP and font-arrival LCP, fixable only by prerendering, which would compromise the entrance choreography. Accepted deliberately — the §8 ≥95-mobile budget belonged to the v2 quiet design; Aaditya explicitly re-prioritized wow factor.
+
+**Honest fallbacks kept.** `prefers-reduced-motion`: static constellation frame, no smooth scroll, no cursor, no marquee/aurora motion, instant anchors. Touch: no pointer forces, no tilt, no custom cursor. No WebGL: aurora background still carries the design. Tab hidden: sim pauses.
+
 ## Resolved content issues
 
 - **jyotirvidhya.com was unreachable** (DNS resolved to Hostinger IPs, but the server never answered on port 443 — an outage or firewall block, not a bot block). Flagged per §6 rather than shipped as a working link. Aaditya confirmed on 2026-07-07 to drop it from the site for now; the entry was removed from `projects.ts` (recoverable via git history). Replaced with three real GitHub projects: EcoFarma, KrishiBot, Nepali News Analytics.
