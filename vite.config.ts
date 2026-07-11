@@ -3,6 +3,7 @@ import type { Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
+import { execSync } from 'node:child_process';
 
 /**
  * Preload the fonts used above the fold (the LCP serif name + body/mono) so
@@ -10,13 +11,13 @@ import { fileURLToPath, URL } from 'node:url';
  * removes the font-swap flash and steadies LCP.
  */
 function preloadCriticalFonts(): Plugin {
-  // Only the faces that paint the hero (LCP paragraph = sans, name = serif
-  // both styles). Mono is small readout labels — it can swap in late rather
-  // than compete with the LCP font for bandwidth.
+  // The faces that paint above the fold: the 600-weight grotesque renders
+  // the giant hero name (its late swap was the page's only layout shift),
+  // 400 renders body copy, and mono renders every HUD readout.
   const critical = [
-    /instrument-serif-latin-400-normal.*\.woff2$/,
-    /instrument-serif-latin-400-italic.*\.woff2$/, // hero "Sapkota" is italic
+    /geist-sans-latin-600-normal.*\.woff2$/,
     /geist-sans-latin-400-normal.*\.woff2$/,
+    /geist-mono-latin-400-normal.*\.woff2$/,
   ];
   return {
     name: 'preload-critical-fonts',
@@ -44,12 +45,36 @@ function preloadCriticalFonts(): Plugin {
   };
 }
 
+// Real build telemetry for the dashboard — git hash + date, injected at
+// build time. Falls back gracefully outside a git checkout (e.g. CI cache).
+function buildInfo(): { hash: string; date: string } {
+  let hash = 'dev';
+  try {
+    hash = execSync('git rev-parse --short HEAD').toString().trim();
+  } catch {
+    /* not a git checkout */
+  }
+  return { hash, date: new Date().toISOString().slice(0, 10) };
+}
+
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss(), preloadCriticalFonts()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+export default defineConfig(() => {
+  const info = buildInfo();
+  return {
+    plugins: [react(), tailwindcss(), preloadCriticalFonts()],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
     },
-  },
+    define: {
+      __BUILD_HASH__: JSON.stringify(info.hash),
+      __BUILD_DATE__: JSON.stringify(info.date),
+    },
+    build: {
+      // ship source maps: only fetched by devtools, and the three.js chunk is
+      // large enough that Lighthouse requires one for best-practices
+      sourcemap: true,
+    },
+  };
 });
