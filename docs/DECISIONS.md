@@ -67,3 +67,15 @@ Fetches every URL in the data files. Classifies bot-block statuses (403/429/999)
 - Resume: real PDF supplied → shipped as `public/resume.pdf` (→ `dist/resume.pdf`).
 - Skills: the §6 grouped set as-is.
 - Dropped Facebook & Instagram from the professional site (kept GitHub, LinkedIn, X, blog).
+
+## v5 — "Stellar Telemetry Grid & Liquid Data" (2026-07-12)
+
+**Why.** Aaditya rejected v3 too (the dark *violet constellation* styling, not just v2's quietness) and, after a halted v4 "warm editorial" direction, supplied a definitive brief with 11 reference sites: a HUD/instrument aesthetic on Pitch Obsidian `#020408` + Cybernetic Turquoise `#00f0ff`, with eight named sections (boot preloader, point-cloud hero, telemetry dashboard, liquid work matrix, physics skills sandbox, horizontal journey, scramble writing, contact terminal). Full design record in `docs/DESIGN-V5.md`; v4's halted plan kept in `docs/DESIGN-V4.md` as history.
+
+**Content decisions re-confirmed by Aaditya (2026-07-10).** Projects stay the verified real list — KUMUN featured + Knowlify, ResolveIQ, IntelliFlow, TrekVerse, EcoFarma, KrishiBot, Nepali News Analytics, GYH-2026. Damek/Dodolr/Tinkune and Jyotirvidhya stay out despite reappearing in the brief. Journey timeline uses only verifiable events. Sound defaults off.
+
+**three.js accepted (v3 had refused it).** The brief's scope — force-field point cloud, ping-pong FBO fluid trail, liquid preview shader — is past what a hand-rolled 2D canvas can do. Cost contained: one lazy chunk (232 KB gz) whose load *is* the preloader's real progress on desktop, and which loads after first paint on low-power devices, so it never blocks LCP anywhere.
+
+**Honesty mechanics.** GitHub activity is the real public events API with an explicit "LINK DOWN" failure state; build hash/date are the real git values injected at build time; the terminal's `send` opens a genuine `mailto:` rather than pretending to send; hover previews are a real KUMUN screenshot plus metadata cards generated from real repo data (`scripts/capture-previews.mjs`) — no fabricated product screenshots. ResolveIQ's `repoUrl` was removed 2026-07-11 after the repo 404'd (verified against his live repo list).
+
+**Measured (local `vite preview`, Lighthouse 12.8).** Desktop **99 / 100 / 96 / 100** (LCP 0.9 s, CLS 0.022, TBT 0 ms); mobile **96 / 100 / 96 / 100** (LCP 2.4 s, TBT 60 ms). The one BP failure is a GitHub API 403 from this machine's exhausted unauthenticated rate limit during repeated test runs — an environment artifact, degrades honestly in the UI. Key fixes en route: premultiplied alpha for GL layers compositing over DOM; preloading the actual hero font weight (600) killed a 0.09 CLS; deferring GL + shortening boot choreography on low-power took mobile perf 49 → 96; the sandbox settles its physics bodies synchronously at mount so offscreen tap targets never overlap.

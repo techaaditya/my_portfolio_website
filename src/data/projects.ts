@@ -65,7 +65,9 @@ export const projects: readonly Project[] = [
     year: '2026',
     discipline: 'Agentic AI',
     stack: ['Python', 'TypeScript', 'Knowledge graph', 'LLM'],
-    repoUrl: 'https://github.com/TechAaditya/ResolveIQ',
+    // repoUrl removed 2026-07-11: github.com/TechAaditya/ResolveIQ now 404s
+    // (repo deleted or made private) — no dead links shipped. Restore when
+    // Aaditya confirms the new location.
     credit: 'Built for the Global AI Hackathon Series',
     status: 'live',
   },
